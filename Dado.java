@@ -5,7 +5,7 @@ public class Dado implements Serializable{
     //Metodo construtor 
     public Dado(){
         roll();
-    }
+    }//ufjehjf
     //Metodo get que retorna a face superior do dado.
     public int getSideUp(){
         return this.SideUp;
