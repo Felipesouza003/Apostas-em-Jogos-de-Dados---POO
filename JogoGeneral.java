@@ -22,7 +22,7 @@ public class JogoGeneral implements Serializable{
             jogadas[i] = -1;
         }
     }
-
+//5cijdoisi
     // Metodo acessador de jogadas]
     public int[] Getjogadas() {
         return this.jogadas;
