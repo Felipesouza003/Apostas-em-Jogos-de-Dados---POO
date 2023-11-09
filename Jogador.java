@@ -10,7 +10,7 @@ public class Jogador implements Serializable{
     public Jogador(String nome, char Tipo){
         this.nome = nome;
         Tipo_jog = Tipo;
-        jogoG = new JogoGeneral();
+        jogoG = new JogoDados();
     }
     //Metodo acessador do nome do jogador.
     public String GetNome(){

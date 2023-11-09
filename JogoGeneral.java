@@ -1,16 +1,9 @@
-import java.io.Serializable;
-
-public class JogoGeneral implements Serializable{
-    private Dado[] Dados = new Dado[5];
+public class JogoGeneral extends JogoDados{
     private int[] jogadas = new int[13];
-
+    
     // Construtor padrao
-    public JogoGeneral() {
-        // int i;
-        // Dados do jogador da rodada
-        for (int i = 0; i < 5; i++)
-            Dados[i] = new Dado();
-
+    public JogoGeneral(int nDados, String nome, Dado[] dados) {
+        super(nDados, nome, dados);
         // Inicializando jogadas
         for (int i = 0; i < 13; i++) {
             jogadas[i] = -1;
@@ -27,20 +20,11 @@ public class JogoGeneral implements Serializable{
     public int[] Getjogadas() {
         return this.jogadas;
     }
-
-    public void RolarDados() {
-        System.out.println("\nFaces dos dados rolados:");
-        for (int i = 0; i < 5; i++) {
-            Dados[i].roll();
-            System.out.printf(Dados[i]+"   ");
-        }
-        System.out.println();
-    }
     //Metodo que faz a soma das faces dos dados rolados e retorna.
     public int SomaDados() {
         int soma = 0;
         for (int i = 0; i < 5; i++) {
-            soma += Dados[i].getSideUp();
+            soma += getDados()[i].getSideUp();
         }
         return soma;
     }
@@ -50,7 +34,7 @@ public class JogoGeneral implements Serializable{
 		int[] vet_cont = {0,0,0,0,0,0}; 
 		// vetor vet_con[] conta o numero de aparicoes das faces e coloca no indice respectivo
 		for(int i = 0 ; i < 5 ; i++) { 
-			vet_cont[(this.Dados[i].getSideUp()) - 1] += 1;
+			vet_cont[(getDados()[i].getSideUp()) - 1] += 1;
 		}
         //Verificacao se a jogada ja foi utilizada
         if(jogadas[jogada - 1] != -1){
