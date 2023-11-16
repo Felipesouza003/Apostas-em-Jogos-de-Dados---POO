@@ -3,12 +3,13 @@ import java.io.Serializable;
 public abstract class JogoDados implements Serializable, Estatistica{
     private int nDados;
     private String nomeJogo;
-    private Dado[] Dados = new Dado[nDados];
+    private Dado[] Dados;
     private float saldo;
 
     public JogoDados(int nDados, String nome){
         this.nDados = nDados;
         this.nomeJogo = nome;
+        this.Dados = new Dado[nDados];
         // Dados do jogador da rodada
         for (int i = 0; i < nDados; i++)
             Dados[i] = new Dado();
