@@ -2,8 +2,8 @@ public class JogoGeneral extends JogoDados{
     private int[] jogadas = new int[13];
     
     // Construtor padrao
-    public JogoGeneral(int nDados, String nome, Dado[] dados) {
-        super(nDados, nome, dados);
+    public JogoGeneral(int nDados, String nome) {
+        super(nDados, nome);
         // Inicializando jogadas
         for (int i = 0; i < 13; i++) {
             jogadas[i] = -1;
@@ -131,6 +131,26 @@ public class JogoGeneral extends JogoDados{
         }
         return false;
     }
+    //Metodo que mostra o vetor de jogadas.(Mexer)
+    /*public void MostraJogadas(){
+        int[] vet = this.jogoD[i].Getjogadas();
+        for(int i=0; i < vet.length; i++){
+            if(vet[i] == -1)
+                System.out.printf("-\t");
+            else
+                System.out.printf(vet[i]+"\t");
+        }
+    }*/
+     //Metodo que soma o valor de todas as posicoes do vetor jogadas de cada jogador.(Mexer)
+     /*public int SomaTot(){
+        int[] vetJogadas = jogoD.Getjogadas();//Invocacao do metodo acessador de jogadas.
+        int soma=0;
+        for(int i=0; i < vetJogadas.length; i++){
+            if(vetJogadas[i] != -1)
+                soma += vetJogadas[i];//soma os valores das posicoes do vetor de jogadas.
+        }
+        return soma;
+    }*/
     //metodo que pontua as jogadas separadamente.
     public void pontuarJogada(int jogada) {
         if(validaJogadas(jogada)==true)//Valida a jogada antes de pontuar.

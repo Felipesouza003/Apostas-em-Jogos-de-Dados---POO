@@ -6,10 +6,9 @@ public abstract class JogoDados implements Serializable, Estatistica{
     private Dado[] Dados = new Dado[nDados];
     private float saldo;
 
-    public JogoDados(int nDados, String nome, Dado[] dados){
+    public JogoDados(int nDados, String nome){
         this.nDados = nDados;
         this.nomeJogo = nome;
-        this.Dados = dados;
         // Dados do jogador da rodada
         for (int i = 0; i < nDados; i++)
             Dados[i] = new Dado();
