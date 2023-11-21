@@ -23,5 +23,8 @@ public abstract class Jogador implements Serializable{
     public JogoDados[] getJogo(){
         return this.jogoD;
     }
+    public String toString(){
+        return this.nome + this.Tipo_jog;
+    }
 
 }

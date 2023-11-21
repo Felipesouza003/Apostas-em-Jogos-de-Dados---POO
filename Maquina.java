@@ -1,8 +1,8 @@
 public class Maquina extends Jogador{
     //Metodo em que o jogador escolhe a jogada.
-    /*public void EscolherJogada(int jogada){
+    public void EscolherJogada(int jogada){
         this.jogoD[jogada].pontuarJogada(jogada);
-    }*/
+    }
     //Estrategia de maquina que retorna um inteiro representando a jogada escolhida.
     public int EstrategiaMaq(){
         int escolha=-1;//Variavel auxiliar que guarda a posicao que representa a jogada possivel.
@@ -25,4 +25,4 @@ public class Maquina extends Jogador{
             return escolha;
         }
     }
-}
+}*/
