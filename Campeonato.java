@@ -28,6 +28,10 @@ public class Campeonato implements Serializable{
     //Metodo para incluir novos jogadores.
     public void incluirJogador(){
         char tipo=' ';//Variavel para ler o tipo do jogador.
+        String Cpf;
+        String conta;
+        int numeroBanco;
+
         if(numJog < 10){
             do{
                 System.out.printf("Informe o nome do jogador(a): ");
@@ -40,9 +44,21 @@ public class Campeonato implements Serializable{
                     System.out.println("Tipo de jogador informado é invalido por favor informe novamente!");
             }while(tipo != 'm' && tipo != 'M' && tipo != 'h' && tipo != 'H');
 
-        
-            jogadores[numJog] = new Jogador(nome, tipo);//Atribui um novo jogador ao vetor de jogadores.
-            numJog++;//Como um novo jogador foi incluido aumenta-se a variavel contadora de jogadores
+            if(tipo == 'h' || tipo == 'H'){
+                System.out.printf("Informe o CPF do(a) jogador(a): ");
+                Cpf = teclado.nextLine();
+                System.out.printf("Informe a conta do(a) jogador(a): ");
+                conta = teclado.nextLine();
+                System.out.printf("Informe o numero do banco do(a) jogador(a): ");
+                numeroBanco = teclado.nextInt();
+
+                jogadores[numJog] = new Humano(nome, tipo, Cpf, conta, numeroBanco);//Atribui um novo jogador ao vetor de jogadores.
+                numJog++;//Como um novo jogador foi incluido aumenta-se a variavel contadora de jogadores
+
+            }
+            else{
+                
+            }
             System.out.println("\nJogador(a) "+nome+" incluido com sucesso!");
         }
         else//Caso o limite de jogadores seja atingido impede a inclusao de um novo jogador.
