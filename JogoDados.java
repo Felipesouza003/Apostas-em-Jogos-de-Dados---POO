@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public abstract class JogoDados implements Serializable, Estatistica{
+public abstract class JogoDados implements Serializable{
     private int nDados;
     private String nomeJogo;
     private Dado[] Dados;
@@ -24,6 +24,9 @@ public abstract class JogoDados implements Serializable, Estatistica{
     }
     public String getNomeJogo(){
         return this.nomeJogo;
+    }
+    public void setSaldo(float saldo){
+        this.saldo = saldo;
     }
     public float getSaldo(){
         return this.saldo;

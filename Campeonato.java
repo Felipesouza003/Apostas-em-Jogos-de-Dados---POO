@@ -17,6 +17,11 @@ public class Campeonato implements Serializable{
         this.jogadores = new Jogador[10];
         this.numJog=0;
     }
+    //Metodo contrutor com dois parametros.
+    public Campeonato(Jogador[] jogadores, int numeroJog){
+        this.jogadores = jogadores;
+        numJog = numeroJog;
+    }
     //metodo acessador que retorna o vetor de instancias da classe Jogador.
     public Jogador[] getJogadores() {
         return this.jogadores;
@@ -52,12 +57,14 @@ public class Campeonato implements Serializable{
                 System.out.printf("Informe o numero do banco do(a) jogador(a): ");
                 numeroBanco = teclado.nextInt();
 
+                teclado.nextLine();
                 jogadores[numJog] = new Humano(nome, tipo, Cpf, conta, numeroBanco);//Atribui um novo jogador ao vetor de jogadores.
                 numJog++;//Como um novo jogador foi incluido aumenta-se a variavel contadora de jogadores
 
             }
             else{
-                
+                jogadores[numJog] = new Maquina(nome, tipo);//Atribui um novo jogador ao vetor de jogadores.
+                numJog++;//Como um novo jogador foi incluido aumenta-se a variavel contadora de jogadores  
             }
             System.out.println("\nJogador(a) "+nome+" incluido com sucesso!");
         }
@@ -75,11 +82,12 @@ public class Campeonato implements Serializable{
         if(numJog == 0)//Verifica se existe pelo menos um jogador antes de iniciar uma nova rodada.
             System.out.println("\nPor favor inclua jogadores(as) antes de começar o campeonato!");
         else{
-            for(int i=0; i < 13; i++){//for que repete 13 jogadas.
+            /*for(int i=0; i < 10; i++){//for que controla os jogadores.
                 for(int j=0; j < numJog; j++){//for que controla os jogadores que escolhem a jogada.
                     System.out.println();
-                    System.out.println("\nRolando dados para "+jogadores[j].GetNome()+"("+jogadores[j].GetTipo()+")...");
-                    jogadores[j].jogarDados();//invocando o metodo de jogar dados.
+                    if(jogadores[i].GetSaldo() > 0){
+
+                    }
                     do {
                         System.out.println("\nOpcões de jogadas:");
                         System.out.println("1\t2\t3\t4\t5\t6\t7(T)\t8(Q)\t9(F)\t10(S+)\t11(S-)\t12(G)\t13(X)");
@@ -101,52 +109,10 @@ public class Campeonato implements Serializable{
                     //Metodo que mostra o vetor de jogadas atulaizado.
                     jogadores[j].MostraJogadas();
                 }
-            }
-        }
-    }//Metodo que mostra a tabela da ultima rodada.
-    public void mostraTabelaRodada(){
-        System.out.println("\n------------------ CARTELA DE RESULTADOS -------------------");
-        System.out.println();
-        for (int i = 0; i <= 15; i++) {//for que controla o numero de linhas da tabela.
-            for (int k = 0; k <= numJog; k++) {//for que controla as colunas dos jogadores.
-                if (i == 0 && k == 0) {//Condicao para imprimir o primeiro espaco na linha dos nomes.
-                    System.out.printf("\t");
-                } else if (i == 0 && k != 0) {//Iprime o nome e o tipo dos jogadores
-                    System.out.printf("\t %s(%s)", jogadores[k - 1].GetNome(), jogadores[k - 1].GetTipo());
-                } else if (i != 0 && k == 0 && i < 14) {
-                    if(i < 7)//Condicoes para imprimir o tipo das jogadas.
-                        System.out.printf("%d\t", i);
-                    else if(i == 7)
-                        System.out.printf("%d(T)\t", i);
-                    else if(i == 8)
-                        System.out.printf("%d(Q)\t", i);
-                    else if(i == 9)
-                        System.out.printf("%d(F)\t", i);
-                    else if(i == 10)
-                        System.out.printf("%d(S+)\t", i);
-                    else if(i == 11)
-                        System.out.printf("%d(S-)\t", i);
-                    else if(i == 12)
-                        System.out.printf("%d(G)\t", i);
-                    else if(i == 13)
-                        System.out.printf("%d(X)\t", i);
-                } else if (i == 15 && k == 0) {
-                    System.out.printf("Total: ");//Impressao do nome total.
-                } else if (i == 14) {
-                    System.out.printf("--------------");//barrinha para separacao.
-                } else if (i == 15 && k != 0) {//Na linha 15 imprime o total de cada jogador.
-                    System.out.printf(" \t %d  \t", jogadores[k - 1].SomaTot());
-                } else {
-                    //Imprime os valores das jogadas dos jogadores.
-                    if(jogadores[k - 1].getJogo().Getjogadas()[i - 1] != -1)
-                        System.out.printf(" \t %d  \t", jogadores[k - 1].getJogo().Getjogadas()[i - 1]);
-                    else//Se a jogada nao foi escolhida imprime um X.
-                        System.out.printf("  \t X  \t");
-                }
-            }
-            System.out.println("");//Pula as linhas a cada iteracao.
+            }*/
         }
     }
+
     //Metodo que exclui o jogador pelo nome.
     public void exluirJogador(){
         if(numJog > 0){//Verifica se existem jogadores antes da exclusao.

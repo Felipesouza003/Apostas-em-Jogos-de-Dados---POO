@@ -28,7 +28,7 @@ public class UsaCampeonato{
                     campion.iniciaCampeonato();
                     break;
                 case 'd'://Mostra a tabela da ultima rodada caso a opcao seja d.
-                    campion.mostraTabelaRodada();
+                    //campion.mostraTabelaRodada();
                     break;
                 case 'e'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
                     campion.gravarArq();
