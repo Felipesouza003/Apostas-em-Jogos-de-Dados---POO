@@ -15,7 +15,7 @@ public class UsaCampeonato{
             System.out.println("f)Ler os dados do campeonato em arquivo.");
             System.out.println("g)Sair da aplicação.");
             System.out.printf("\nEntre com a opção do menu: ");
-            opcao=teclado.next().charAt(0);
+            opcao = teclado.nextLine().charAt(0);
 
             switch(opcao){
                 case 'a'://Incluir o jogador caso a opcao seja a.

@@ -4,7 +4,7 @@ public class Maquina extends Jogador{
     public Maquina(String nome, char tipo){
         super(nome, tipo);
     }
-    public int EscolherJogo(){
+    public int escolherJogo(){
         Random x = new Random();
         return x.nextInt(2) + 1;
     }

@@ -4,7 +4,7 @@ public abstract class JogoDados implements Serializable{
     private int nDados;
     private String nomeJogo;
     private Dado[] Dados;
-    private float saldo;
+    private float Aposta;
 
     public JogoDados(int nDados, String nome){
         this.nDados = nDados;
@@ -25,11 +25,11 @@ public abstract class JogoDados implements Serializable{
     public String getNomeJogo(){
         return this.nomeJogo;
     }
-    public void setSaldo(float saldo){
-        this.saldo = saldo;
+    public void setAposta(float Aposta){
+        this.Aposta = Aposta;
     }
-    public float getSaldo(){
-        return this.saldo;
+    public float getAposta(){
+        return this.Aposta;
     }
     public Dado[] getDados(){
         return this.Dados;

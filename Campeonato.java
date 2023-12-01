@@ -8,9 +8,7 @@ import java.io.Serializable;
 
 public class Campeonato implements Serializable{
     private Jogador[] jogadores;//vetor de instancias da classe Jogador.
-    private Scanner teclado = new Scanner (System.in);//Variavel para escanear as escolhas dos jogadores.
     private int numJog;//Variavel para controlar o numero de jogadores.
-    private String nome;//Variavel para ler o nome dos jogadores.
     
     //Metodo construtor 
     public Campeonato(){
@@ -32,10 +30,12 @@ public class Campeonato implements Serializable{
     }
     //Metodo para incluir novos jogadores.
     public void incluirJogador(){
+        Scanner teclado = new Scanner (System.in);
         char tipo=' ';//Variavel para ler o tipo do jogador.
         String Cpf;
         String conta;
-        int numeroBanco;
+        String numeroBanco;
+        String nome;
 
         if(numJog < 10){
             do{
@@ -43,7 +43,6 @@ public class Campeonato implements Serializable{
                 nome = teclado.nextLine();
                 System.out.printf("Agora informe o tipo do jogador(a) [H - humano ou M - máquina]");
                 tipo = teclado.next().charAt(0);
-                teclado.nextLine();
                 //verificacao  do tipo de jogador informado.
                 if(tipo != 'm' && tipo != 'M' && tipo != 'h' && tipo != 'H')
                     System.out.println("Tipo de jogador informado é invalido por favor informe novamente!");
@@ -52,12 +51,13 @@ public class Campeonato implements Serializable{
             if(tipo == 'h' || tipo == 'H'){
                 System.out.printf("Informe o CPF do(a) jogador(a): ");
                 Cpf = teclado.nextLine();
+                teclado.nextLine();
                 System.out.printf("Informe a conta do(a) jogador(a): ");
                 conta = teclado.nextLine();
+                //teclado.nextLine();
                 System.out.printf("Informe o numero do banco do(a) jogador(a): ");
-                numeroBanco = teclado.nextInt();
-
-                teclado.nextLine();
+                numeroBanco = teclado.nextLine();
+                //teclado.nextLine();
                 jogadores[numJog] = new Humano(nome, tipo, Cpf, conta, numeroBanco);//Atribui um novo jogador ao vetor de jogadores.
                 numJog++;//Como um novo jogador foi incluido aumenta-se a variavel contadora de jogadores
 
@@ -70,7 +70,7 @@ public class Campeonato implements Serializable{
         }
         else//Caso o limite de jogadores seja atingido impede a inclusao de um novo jogador.
             System.out.println("\nNao e mais possivel incluir jogadores(as) inicie o compeonato!");
-    }
+        }
     //Metodo que inicia um novo compeonato
     public void iniciaCampeonato(){
         int k=0;//Reinicializa o vetor de jogadores no caso de uma nova rodada.
@@ -78,43 +78,50 @@ public class Campeonato implements Serializable{
             jogadores[k].zeraPont();
             k++;
         }
-        int jogada=0;//reinicializa a a variavel jogada.
+
         if(numJog == 0)//Verifica se existe pelo menos um jogador antes de iniciar uma nova rodada.
             System.out.println("\nPor favor inclua jogadores(as) antes de começar o campeonato!");
         else{
-            /*for(int i=0; i < 10; i++){//for que controla os jogadores.
+            for(int i=0; i < 10; i++){//for que controla os jogadores.
                 for(int j=0; j < numJog; j++){//for que controla os jogadores que escolhem a jogada.
                     System.out.println();
-                    if(jogadores[i].GetSaldo() > 0){
+                    if(jogadores[j].GetSaldo() > 0){
+                        if(jogadores[j] instanceof Humano){
+                            Humano humano = (Humano)jogadores[j];
+                            humano.CriarJogo(humano.escolherJogo(), i);
+                            if(humano.getJogoDados()[i] instanceof JogoGeneral){
+                                JogoGeneral AuxJogo = (JogoGeneral)humano.getJogoDados()[i];
+                                AuxJogo.setAposta(humano.escolherValorAposta());
+                                for(int r=0; r < 13; r++){
+                                    System.out.println("\n\nRolando dados para "+humano.GetNome()+"("+humano.GetTipo()+")...");
+                                    AuxJogo.RolarDados();
+                                    AuxJogo.pontuarJogada(humano.EscolherJogada());
+                                    AuxJogo.MostraJogadas();
+                                }
+                                if(AuxJogo.SomaTotAte12() > 2*AuxJogo.Getjogadas()[12]){
+                                    humano.SetSaldo(humano.GetSaldo()- AuxJogo.getAposta());
+                                    System.out.println("\n\nVoce venceu e seu saldo agora eh de R$: "+humano.GetSaldo());
+                                }
+                                else
+                                    System.out.println("Voce perdeu desejo mais sorte na proxima vez!");
 
-                    }
-                    do {
-                        System.out.println("\nOpcões de jogadas:");
-                        System.out.println("1\t2\t3\t4\t5\t6\t7(T)\t8(Q)\t9(F)\t10(S+)\t11(S-)\t12(G)\t13(X)");
-                        System.out.println("Para qual jogada vc quer marcar? ");
-                        //Verificacao do tipo de jogador caso seja humano le a jogada
-                        //caso seja maquina invoca o metodo de estrategia de maquina. 
-                        if(jogadores[j].GetTipo() == 'h' || jogadores[j].GetTipo() == 'H'){
-                            jogada = teclado.nextInt();
-                            teclado.nextLine();
+                            }
                         }
-                        else//o metodo Estrategia de maquina retorna um valor que representa a jogada escolhida.
-                            jogada = jogadores[j].EstrategiaMaq();
-                        if(jogada < 1 || jogada >13)//Verifica se a jogada escolhida esta dentro dos limites possiveis.
-                            System.out.println("Jogada Inválida por favor informe um número entre 1 e 13");
-                    } while (jogada < 1 || jogada >13);
-                    System.out.println("\nJogada escolhida: "+jogada);
-                    //Invocacao do metodo que realmente ecolhe a jogada para ser pontuada.
-                    jogadores[j].EscolherJogada(jogada);
-                    //Metodo que mostra o vetor de jogadas atulaizado.
-                    jogadores[j].MostraJogadas();
+                        else{
+                            Maquina humano = (Maquina)jogadores[j];
+                            humano.escolherJogo();
+                        }
+                        
+                    }
                 }
-            }*/
+            }
         }
     }
 
     //Metodo que exclui o jogador pelo nome.
     public void exluirJogador(){
+        Scanner teclado = new Scanner (System.in);
+        String nome;
         if(numJog > 0){//Verifica se existem jogadores antes da exclusao.
             //Imprime a lista de jogadores para escolha.
             System.out.println("\nJogadores Disponíveis:\n");
