@@ -5,8 +5,12 @@ public class Maquina extends Jogador{
         super(nome, tipo);
     }
     public int escolherJogo(){
+
+        System.out.printf("\nInforme o tipo de jogo em que deseja apostar: (1-Jogo general ou 2-Jogo azar): ");
         Random x = new Random();
-        return x.nextInt(2) + 1;
+        int escolha = x.nextInt(2) + 1;
+        System.out.println("Escolha: "+escolha);
+        return escolha;
     }
     public float ApostaMaquina(){
         if(GetSaldo() > 40)

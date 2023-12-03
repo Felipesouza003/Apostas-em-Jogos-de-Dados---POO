@@ -53,8 +53,8 @@ public abstract class Jogador implements Serializable{
         if(escolha == 1){
             this.jogoD[i] = new JogoGeneral(5, "Jogo General");
         }
-        /*else if(escolha == 2)
-            this.jogoD[i] = new JogoAzar(2, "Jogo Azar");*/
+        else if(escolha == 2)
+            this.jogoD[i] = new JogoAzar();
 
     }
 }

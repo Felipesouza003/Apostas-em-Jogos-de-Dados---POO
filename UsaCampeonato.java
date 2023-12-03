@@ -47,7 +47,7 @@ public class UsaCampeonato{
                     break;
             }
 
-        }while(opcao != 'g' && opcao != 'G');//Repete ate a opcao ser G ou g.
+        }while(opcao != 'h' && opcao != 'H');//Repete ate a opcao ser G ou g.
         teclado.close();
     }
 }

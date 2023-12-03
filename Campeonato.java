@@ -138,7 +138,7 @@ public class Campeonato implements Serializable{
                                 }
                                 else{
                                     JogoAzar AuxJogo = (JogoAzar)maquina.getJogoDados()[maquina.getContJogos()];
-
+                                    AuxJogo.setAposta(maquina.ApostaMaquina());
                                     AuxJogo.execJog();
                                     operaAposta(AuxJogo.getAposta(), AuxJogo.resultadoAzar(), j);
                                 }
@@ -435,7 +435,7 @@ public class Campeonato implements Serializable{
                         }                       
                     }
                 }
-                else{
+                else if(opcaoExt == 3){
                     if(ExisteAzar() == false && ExisteGeneral() == false)
                         System.out.println("\nNao existem apostas!");
                     else{

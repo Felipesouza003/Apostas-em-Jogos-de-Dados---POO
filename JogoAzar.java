@@ -1,15 +1,13 @@
 public class JogoAzar extends JogoDados{
     // Atributos
-    private float valorAposta;
     private int jogBus;
     private boolean vitoria;
 
     // Metodo construtor
-    public JogoAzar(float valorAposta) {
+    public JogoAzar() {
         super(2, "JogoAzar");
         this.jogBus = -1;
         this.vitoria = false;
-        this.valorAposta = valorAposta;
     }
 
     @Override
