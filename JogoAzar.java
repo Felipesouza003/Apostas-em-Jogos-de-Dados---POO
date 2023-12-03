@@ -1,4 +1,4 @@
-/*public class JogoAzar extends JogoDados{
+public class JogoAzar extends JogoDados{
     // Atributos
     private float valorAposta;
     private int jogBus;
@@ -30,19 +30,8 @@
         }
     }
 
-    public boolean jogadorVenceu() {
+    public boolean resultadoAzar() {
         return vitoria;
-    }
-
-    public void operaAposta(){
-        float nSaldo;
-        if(jogadorVenceu()){
-            nSaldo = getSaldo() + (2*valorAposta);
-        }
-        else{
-            nSaldo = getSaldo() - valorAposta;
-        }
-        setSaldo(nSaldo);
     }
 
     // Metodo principal para funcionamento do JogoAzar
@@ -97,6 +86,5 @@
 
         }while(jogBus != 0);
 
-        operaAposta();
     }
-}*/
+}

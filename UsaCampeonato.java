@@ -6,14 +6,15 @@ public class UsaCampeonato{
         char opcao;//Variavel para leitura da opcao do menu.
         do{
             System.out.println();
-            System.out.println("\n--------- JOGO GENERAL ---------");
+            System.out.println("\n--------- CAMPEONATO DE APOSTAS EM JOGOS DE DADOS ---------");
             System.out.println("a)Incluir um novo jogador.");
             System.out.println("b)Remover um jogador.");
             System.out.println("c)Executar rodada.");
-            System.out.println("d)Mostrar cartela de resultados da última rodada");
-            System.out.println("e)Gravar os dados do campeonato em arquivo.");
-            System.out.println("f)Ler os dados do campeonato em arquivo.");
-            System.out.println("g)Sair da aplicação.");
+            System.out.println("d)Imprimir saldo dos jogadores.");
+            System.out.println("e)Imprimir extrato dos jogadores.");
+            System.out.println("f)Gravar os dados do campeonato em arquivo.");
+            System.out.println("g)Ler os dados do campeonato em arquivo.");
+            System.out.println("h)Sair da aplicação.");
             System.out.printf("\nEntre com a opção do menu: ");
             opcao = teclado.nextLine().charAt(0);
 
@@ -28,15 +29,18 @@ public class UsaCampeonato{
                     campion.iniciaCampeonato();
                     break;
                 case 'd'://Mostra a tabela da ultima rodada caso a opcao seja d.
-                    //campion.mostraTabelaRodada();
+                    campion.imprimirSaldo();;
                     break;
-                case 'e'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
+                case 'e':
+                    campion.ImprimirExtratos();
+                    break;
+                case 'f'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
                     campion.gravarArq();
                     break;
-                case 'f'://Le os dados gravados em arquivo caso a opcao seja f.
+                case 'g'://Le os dados gravados em arquivo caso a opcao seja f.
                     campion.LerArq();
                     break;
-                case 'g'://Encerra o programa caso a opcao seja g.
+                case 'h'://Encerra o programa caso a opcao seja g.
                     System.out.println ("Saindo");
                     break;
                 default:

@@ -28,6 +28,22 @@ public class Campeonato implements Serializable{
     public int getNumJog(){
         return this.numJog;
     }
+    public void operaAposta(float valorAposta, boolean vitoria, int i){
+        float nSaldo;
+        if(vitoria){
+            jogadores[i].SetSaldo(jogadores[i].GetSaldo() + valorAposta);
+            System.out.println("\n\nVoce venceu e seu saldo agora eh de R$: "+jogadores[i].GetSaldo());
+            jogadores[i].SetContJogos(jogadores[i].getContJogos()+1);
+        }
+        else{
+            jogadores[i].SetSaldo(jogadores[i].GetSaldo() - valorAposta);
+            System.out.println("\n\nVoce perdeu e seu saldo agora eh de R$: "+jogadores[i].GetSaldo());
+            System.out.println("\nDesejo mais sorte na proxima vez!");
+            jogadores[i].SetContJogos(jogadores[i].getContJogos()+1);
+
+
+        }
+    }
     //Metodo para incluir novos jogadores.
     public void incluirJogador(){
         Scanner teclado = new Scanner (System.in);
@@ -36,6 +52,7 @@ public class Campeonato implements Serializable{
         String conta;
         String numeroBanco;
         String nome;
+        String agencia;
 
         if(numJog < 10){
             do{
@@ -54,11 +71,11 @@ public class Campeonato implements Serializable{
                 teclado.nextLine();
                 System.out.printf("Informe a conta do(a) jogador(a): ");
                 conta = teclado.nextLine();
-                //teclado.nextLine();
                 System.out.printf("Informe o numero do banco do(a) jogador(a): ");
                 numeroBanco = teclado.nextLine();
-                //teclado.nextLine();
-                jogadores[numJog] = new Humano(nome, tipo, Cpf, conta, numeroBanco);//Atribui um novo jogador ao vetor de jogadores.
+                System.out.printf("Informe a agencia do(a) jogador(a): ");
+                agencia = teclado.nextLine();
+                jogadores[numJog] = new Humano(nome, tipo, Cpf, conta, numeroBanco, agencia);//Atribui um novo jogador ao vetor de jogadores.
                 numJog++;//Como um novo jogador foi incluido aumenta-se a variavel contadora de jogadores
 
             }
@@ -73,48 +90,67 @@ public class Campeonato implements Serializable{
         }
     //Metodo que inicia um novo compeonato
     public void iniciaCampeonato(){
-        int k=0;//Reinicializa o vetor de jogadores no caso de uma nova rodada.
-        while(k < numJog){
-            jogadores[k].zeraPont();
-            k++;
-        }
-
         if(numJog == 0)//Verifica se existe pelo menos um jogador antes de iniciar uma nova rodada.
             System.out.println("\nPor favor inclua jogadores(as) antes de começar o campeonato!");
         else{
-            for(int i=0; i < 10; i++){//for que controla os jogadores.
                 for(int j=0; j < numJog; j++){//for que controla os jogadores que escolhem a jogada.
                     System.out.println();
-                    if(jogadores[j].GetSaldo() > 0){
-                        if(jogadores[j] instanceof Humano){
-                            Humano humano = (Humano)jogadores[j];
-                            humano.CriarJogo(humano.escolherJogo(), i);
-                            if(humano.getJogoDados()[i] instanceof JogoGeneral){
-                                JogoGeneral AuxJogo = (JogoGeneral)humano.getJogoDados()[i];
-                                AuxJogo.setAposta(humano.escolherValorAposta());
-                                for(int r=0; r < 13; r++){
-                                    System.out.println("\n\nRolando dados para "+humano.GetNome()+"("+humano.GetTipo()+")...");
-                                    AuxJogo.RolarDados();
-                                    AuxJogo.pontuarJogada(humano.EscolherJogada());
-                                    AuxJogo.MostraJogadas();
-                                }
-                                if(AuxJogo.SomaTotAte12() > 2*AuxJogo.Getjogadas()[12]){
-                                    humano.SetSaldo(humano.GetSaldo()- AuxJogo.getAposta());
-                                    System.out.println("\n\nVoce venceu e seu saldo agora eh de R$: "+humano.GetSaldo());
-                                }
-                                else
-                                    System.out.println("Voce perdeu desejo mais sorte na proxima vez!");
+                    if(jogadores[j].getContJogos() < 10){
+                        if(jogadores[j].GetSaldo() > 0){
+                            if(jogadores[j] instanceof Humano){
+    
+                                Humano humano = (Humano)jogadores[j];
+                                humano.CriarJogo(humano.escolherJogo(), jogadores[j].getContJogos());
+    
+                                if(humano.getJogoDados()[jogadores[j].getContJogos()] instanceof JogoGeneral){
+                                    
+                                    JogoGeneral AuxJogo = (JogoGeneral)humano.getJogoDados()[jogadores[j].getContJogos()];
+                                    
+                                    AuxJogo.setAposta(humano.escolherValorAposta());
+                                    
+                                    humano.EscolherJogada(AuxJogo);
+    
+                                    operaAposta(AuxJogo.getAposta(), AuxJogo.resultadoGeneral(), j);
+    
+                                }else{
+                                    JogoAzar AuxJogo = (JogoAzar)humano.getJogoDados()[jogadores[j].getContJogos()];
+                                    
+                                    AuxJogo.setAposta(humano.escolherValorAposta());
+                                    
+                                    AuxJogo.execJog();
+                                    operaAposta(AuxJogo.getAposta(), AuxJogo.resultadoAzar(), j);
 
+    
+                                }
                             }
+                            else{
+    
+                                Maquina maquina = (Maquina)jogadores[j];
+                                maquina.CriarJogo(maquina.escolherJogo(), jogadores[j].getContJogos());
+                                
+                                if(maquina.getJogoDados()[maquina.getContJogos()] instanceof JogoGeneral){
+                                    JogoGeneral AuxJogo = (JogoGeneral)maquina.getJogoDados()[maquina.getContJogos()];
+                                        
+                                    AuxJogo.setAposta(maquina.ApostaMaquina());
+                                    maquina.EstrategiaMaq(AuxJogo);
+                                    
+                                    operaAposta(AuxJogo.getAposta(), AuxJogo.resultadoGeneral(), j);
+                                }
+                                else{
+                                    JogoAzar AuxJogo = (JogoAzar)maquina.getJogoDados()[maquina.getContJogos()];
+
+                                    AuxJogo.execJog();
+                                    operaAposta(AuxJogo.getAposta(), AuxJogo.resultadoAzar(), j);
+                                }
+                                
+                            }
+                            
                         }
-                        else{
-                            Maquina humano = (Maquina)jogadores[j];
-                            humano.escolherJogo();
-                        }
-                        
+
                     }
+                    else
+                        System.out.println("Limite de Apostas do(a) jogador(a) "+jogadores[j].GetNome()+" atingido!");
                 }
-            }
         }
     }
 
@@ -148,6 +184,374 @@ public class Campeonato implements Serializable{
 
         }else
             System.out.println("\nNao existem jogadores para exclusao!!!");
+    }
+    public boolean ExisteHumano(){
+        for(int i=0; i < numJog; i++){
+            if(jogadores[i] instanceof Humano)
+                return true;
+        }
+        return false;
+    }
+    public boolean ExisteMaquina(){
+        for(int i=0; i < numJog; i++){
+            if(jogadores[i] instanceof Maquina)
+                return true;
+        }
+        return false;
+    }
+    public boolean ExisteGeneral(){
+        for(int i=0; i < numJog; i++){
+            for(int j=0; j < jogadores[i].getContJogos(); j++){
+                if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral)
+                    return true;
+            }
+        }
+        return false;
+    }
+    public boolean ExisteAzar(){
+        for(int i=0; i < numJog; i++){
+            for(int j=0; j < jogadores[i].getContJogos(); j++){
+                if(jogadores[i].getJogoDados()[j] instanceof JogoAzar)
+                    return true;
+            }
+        }
+        return false;
+    }
+    public void imprimirSaldo(){
+        Scanner teclado = new Scanner(System.in);
+        int opcao;
+        System.out.println("\n========== Por favor informe como deseja imprimir os saldos ==========");
+        System.out.println("\n1 - Imprimir saldo somente de jogadores Humanos");
+        System.out.println("2 - Imprimir saldo somente de jogadores Maquinas");
+        System.out.println("3 - Imprimir o saldo de ambos (Humanos e maquinas)");
+        do {
+            System.out.printf("\nDigite uma opcao: ");
+            opcao = teclado.nextInt();
+            if(opcao != 1 && opcao != 2 && opcao != 3)
+                System.out.println("Por favor, informe uma opcao valida (1,2,3)!");
+        } while (opcao != 1 && opcao != 2 && opcao != 3);
+
+        if(opcao == 1){
+            if(ExisteHumano() == false)
+                System.out.println("\nNão Existem jogadores do tipo humano!");
+            else{
+                System.out.println("\n===== Nome e saldo de jogadores Humanos =====\n");
+                for(int i=0; i < numJog; i++){
+                    if(jogadores[i] instanceof Humano){
+                        System.out.println("Nome:"+jogadores[i].GetNome()+"(H) Saldo: R$ "+jogadores[i].GetSaldo());
+                    }
+                }
+            }
+        }
+        else if(opcao == 2){
+            if(ExisteMaquina() == false)
+                System.out.println("\nNão Existem jogadores do tipo maquina!");
+            else{
+                System.out.println("\n===== Nome e saldo de jogadores Maquinas =====\n");
+                for(int i=0; i < numJog; i++){
+                    if(jogadores[i] instanceof Maquina){
+                        System.out.println("Nome:"+jogadores[i].GetNome()+"(M) Saldo: R$ "+jogadores[i].GetSaldo());
+                    }
+                } 
+            }
+        }
+        else{
+            if(ExisteHumano() == false && ExisteMaquina() == false)
+                System.out.println("\nNão Existem jogadores no campeonato!");
+            else{
+                System.out.println("\n===== Nome e saldo de todos os jogadores =====\n");
+                for(int i=0; i < numJog; i++){
+                    if(jogadores[i] instanceof Humano)
+                        System.out.println("Nome:"+jogadores[i].GetNome()+"(H) Saldo: R$ "+jogadores[i].GetSaldo());
+                    else
+                        System.out.println("Nome:"+jogadores[i].GetNome()+"(M) Saldo: R$ "+jogadores[i].GetSaldo());
+
+                }   
+            }
+        }
+    }
+    public void ImprimirExtratos(){
+        Scanner teclado = new Scanner(System.in);
+        int opcao;
+        int opcaoExt;
+        do {
+            System.out.println("1 - JOGADORES HUMANOS");
+            System.out.println("2 - JOGADORES MAQUINAS");
+            System.out.println("3 - AMBOS (HUMANOS E MAQUINAS)");
+            System.out.printf("Escolha para qual tipo de jogador deseja imprimir os extratos: ");
+            opcao = teclado.nextInt();
+
+            if(opcao != 1 && opcao != 2 && opcao != 3)
+                System.out.println("Por favor informe uma opcao valida");
+                
+        } while (opcao != 1 && opcao != 2 && opcao != 3);
+        do {
+            teclado.nextLine();
+            System.out.println("1 - JOGO GENERAL");
+            System.out.println("2 - JOGO AZAR");
+            System.out.println("3 - AMBOS (AZAR E GENERAL)");
+            System.out.printf("Escolha para qual tipo de jogo deseja imprimir os extratos ");
+            opcaoExt = teclado.nextInt();
+            
+            if(opcao != 1 && opcao != 2 && opcao != 3)
+                System.out.println("Por favor informe uma opcao valida");
+        } while (opcao != 1 && opcao != 2 && opcao != 3);
+        if(opcao == 1){
+            if(ExisteHumano() == false)
+                System.out.println("\nNão Existem jogadores do tipo humano!");
+            else{
+                
+                if(opcaoExt == 1){
+                    if(ExisteGeneral() == false)
+                        System.out.println("\nNão Existem Apostas no Jogo General!");
+                    else{
+                        System.out.println("======== EXTRATO DOS JOGOS GENERAIS APOSTADOS PELOS HUMANOS ========");
+                        for(int i=0; i < numJog; i++){
+                            if(jogadores[i] instanceof Humano){
+                                System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                                for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                    if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
+                                        JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println("Jogadas:");
+                                        general.MostraJogadas();
+                                        System.out.println();
+                                        if(general.resultadoGeneral() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                }
+                            }
+                        }               
+                    }
+                }else if(opcaoExt == 2){
+                    if(ExisteAzar() == false)
+                        System.out.println("\nNão Existem Apostas no Jogo Azar!");
+                    else{
+                        System.out.println("======== EXTRATO DOS JOGOS DE AZAR APOSTADOS PELOS HUMANOS ========");
+                        for(int i=0; i < numJog; i++){
+                            if(jogadores[i] instanceof Humano){
+                                System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                                for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                    if(jogadores[i].getJogoDados()[j] instanceof JogoAzar){
+                                        JogoAzar azar = (JogoAzar)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println();
+                                        if(azar.resultadoAzar() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                }
+                            }
+                        }               
+                    }
+                }
+                else{
+                    if(ExisteGeneral() == false && ExisteAzar() == false)
+                        System.out.println("\nNão Existem Apostas!");
+                    else{
+                        System.out.println("======== EXTRATO DE TODOS OS JOGOS APOSTADOS PELOS HUMANOS ========");
+                        for(int i=0; i < numJog; i++){
+                            if(jogadores[i] instanceof Humano){
+                                System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                                for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                    if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
+                                        JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println("Jogadas:");
+                                        general.MostraJogadas();
+                                        System.out.println();
+                                        if(general.resultadoGeneral() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                    else{
+                                        JogoAzar azar = (JogoAzar)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println();
+                                        if(azar.resultadoAzar() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                }
+                            }
+                        }               
+                    }
+                }
+            }
+        }
+        else if(opcao == 2){
+            if(ExisteMaquina() == false)
+                System.out.println("\nNao existem jogadores do tipo maquina!");
+            else{
+                if(opcaoExt == 1){
+                    if(ExisteGeneral() == false)
+                        System.out.println("\nNao existem Apostas no jogo General!");
+                    else{
+                        System.out.println("======== EXTRATO DOS JOGOS GENERAIS APOSTADOS PELAS MAQUINAS ========");
+                        for(int i=0; i < numJog; i++){
+                            if(jogadores[i] instanceof Maquina){
+                                System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                                for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                    if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
+                                        JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println("Jogadas:");
+                                        general.MostraJogadas();
+                                        System.out.println();
+                                        if(general.resultadoGeneral() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else if(opcaoExt == 2){
+                    if(ExisteAzar() == false)
+                        System.out.println("\nNao existem apostas no jogo azar");
+                    else{
+                        System.out.println("======== EXTRATO DOS JOGOS DE AZAR APOSTADOS PELAS MAQUINAS ========");
+                        for(int i=0; i < numJog; i++){
+                            if(jogadores[i] instanceof Maquina){
+                                System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                                for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                    if(jogadores[i].getJogoDados()[j] instanceof JogoAzar){
+                                        JogoAzar azar = (JogoAzar)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println();
+                                        if(azar.resultadoAzar() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                }
+                            }
+                        }                       
+                    }
+                }
+                else{
+                    if(ExisteAzar() == false && ExisteGeneral() == false)
+                        System.out.println("\nNao existem apostas!");
+                    else{
+                        System.out.println("======== EXTRATO DE TODOS OS JOGOS APOSTADOS PELAS MAQUINAS ========");
+                        for(int i=0; i < numJog; i++){
+                            if(jogadores[i] instanceof Maquina){
+                                System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                                for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                    if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
+                                        JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println("Jogadas:");
+                                        general.MostraJogadas();
+                                        System.out.println();
+                                        if(general.resultadoGeneral() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                    else{
+                                        JogoAzar azar = (JogoAzar)jogadores[i].getJogoDados()[j];
+                                        System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println();
+                                        if(azar.resultadoAzar() == true)
+                                            System.out.println("resultado: Ganhou!\n");
+                                        else
+                                            System.out.println("resultado: Perdeu!\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(ExisteHumano() == false && ExisteMaquina() == false)
+                System.out.println("\nNao existem jogadores!");
+            else{
+                if(opcaoExt == 1){
+                    if(ExisteGeneral() == false)
+                        System.out.println("\nNao existem apostas no jogo ganeral!");
+                    else{
+                        System.out.println("======== EXTRATO DE TODOS OS JOGOS GENERAIS APOSTADOS POR (HUMANOS/MAQUINAS) ========");
+                        for(int i=0; i < numJog; i++){
+                            System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                            for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                 if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
+                                    JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
+                                    System.out.println(" "+(j+1)+"° Aposta");
+                                    System.out.println("Jogadas:");
+                                    general.MostraJogadas();
+                                    System.out.println();
+                                    if(general.resultadoGeneral() == true)
+                                        System.out.println("resultado: Ganhou!\n");
+                                    else
+                                        System.out.println("resultado: Perdeu!\n");
+                                }
+                            }
+                        }
+                    }
+                }else if(opcaoExt == 2){
+                    if(ExisteAzar() == false)
+                        System.out.println("\nNao existem apostas em jogo azar");
+                    else{
+                        System.out.println("======== EXTRATO DE TODOS OS JOGOS DE AZAR APOSTADOS POR (HUMANOS/MAQUINAS) ========");
+                        for(int i=0; i < numJog; i++){
+                            System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                            for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                 if(jogadores[i].getJogoDados()[j] instanceof JogoAzar){
+                                    JogoGeneral azar = (JogoGeneral)jogadores[i].getJogoDados()[j];
+                                    System.out.println(" "+(j+1)+"° Aposta");
+                                    System.out.println();
+                                    if(azar.resultadoGeneral() == true)
+                                        System.out.println("resultado: Ganhou!\n");
+                                    else
+                                        System.out.println("resultado: Perdeu!\n");
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    if(ExisteAzar() == false && ExisteGeneral() == false)
+                        System.out.println("\nNao existem apostas em jogos de dados!");
+                    else{
+                        System.out.println("======== EXTRATO DE TODOS OS JOGOS (AZAR/GENERAL) APOSTADOS POR (HUMANOS/MAQUINAS) ========");
+                        for(int i=0; i < numJog; i++){
+                            System.out.printf("Jogador(a): "+jogadores[i].GetNome());
+                            for(int j=0; j < jogadores[i].getContJogos(); j++){
+                                if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
+                                    JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
+                                    System.out.printf(" "+(j+1)+"° Aposta ");
+                                    System.out.println("Jogadas:");
+                                    general.MostraJogadas();
+                                    System.out.println();
+                                    if(general.resultadoGeneral() == true)
+                                        System.out.println("resultado: Ganhou!\n");
+                                    else
+                                        System.out.println("resultado: Perdeu!\n");
+                                }
+                                else{
+                                    JogoAzar azar = (JogoAzar)jogadores[i].getJogoDados()[j];
+                                    System.out.printf(" "+(j+1)+"° Aposta ");
+                                    System.out.println();
+                                    if(azar.resultadoAzar() == true)
+                                        System.out.println("resultado: Ganhou!\n\n");
+                                    else
+                                        System.out.println("resultado: Perdeu!\n\n");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     public void gravarArq(){
         File Dados_JogoG = new File("Jogo.dat");//arquivo para gravacao do dados do jogo 

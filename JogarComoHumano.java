@@ -1,4 +1,4 @@
 public interface JogarComoHumano {
     public int escolherJogo();
-    public int EscolherJogada();
+    public void EscolherJogada(JogoGeneral jogoG);
 }

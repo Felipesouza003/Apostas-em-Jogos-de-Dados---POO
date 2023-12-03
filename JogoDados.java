@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public abstract class JogoDados implements Serializable{
+public abstract class JogoDados implements Serializable, Estatistica{
     private int nDados;
     private String nomeJogo;
     private Dado[] Dados;

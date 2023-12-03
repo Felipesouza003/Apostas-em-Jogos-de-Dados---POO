@@ -40,15 +40,7 @@ public abstract class Jogador implements Serializable{
     public JogoDados[] getJogoDados(){
         return this.jogoD;
     }
-    //Metodo que chama o setJogadas.
-    public void zeraPont(){
-        for(int i=0; i < jogoD.length; i++){
-            if(jogoD[i] instanceof JogoGeneral){
-                JogoGeneral varAux = (JogoGeneral) jogoD[i];
-                varAux.setJogadas();
-            }
-        }
-    }
+    
     //Metodo que invoca o metodo para rolar os dados.
     public void jogarDados(int i){
         this.jogoD[i].RolarDados();
@@ -58,8 +50,9 @@ public abstract class Jogador implements Serializable{
     }
     //criar metodo incluir jogo.
     public void CriarJogo(int escolha, int i){
-        if(escolha == 1)
+        if(escolha == 1){
             this.jogoD[i] = new JogoGeneral(5, "Jogo General");
+        }
         /*else if(escolha == 2)
             this.jogoD[i] = new JogoAzar(2, "Jogo Azar");*/
 

@@ -10,10 +10,22 @@ public class JogoGeneral extends JogoDados{
             jogadas[i] = -1;
         }
     }
-    //Metodo seter que inicializa o vetor de jogadas.
-    public void setJogadas(){
-        for (int i = 0; i < 13; i++) {
-            jogadas[i] = -1;
+
+    @Override
+    public void somaFaceSort(int n) {
+        faceSort[n -1]++;      
+    }
+
+    @Override
+    public int[] getFacesSorteadasVet() {
+        return faceSort;
+    }
+
+    @Override
+    public void printFacesSorteadas() {
+        System.out.println("Quantidade que cada face foi sorteada: ");
+        for(int i = 0; i < numfaces; i++){
+            System.out.println("Face " + (i+1) + ": " + faceSort[i] + " vezes.");
         }
     }
 
@@ -39,7 +51,6 @@ public class JogoGeneral extends JogoDados{
 		}
         //Verificacao se a jogada ja foi utilizada
         if(jogadas[jogada - 1] != -1){
-            System.out.println("\nEssa jogada ja foi utilizada!");
             return false;
         }//Caso a jogada escolhida seja entre 6 e 1 faz a multiplicacao da jogada pelo numero de vezes que a face virou.
         else if(jogada >= 1 && jogada <= 6){ 
@@ -140,6 +151,13 @@ public class JogoGeneral extends JogoDados{
             else
                 System.out.printf(jogadas[i]+"\t");
         }
+    }
+    public boolean resultadoGeneral(){
+        if(SomaTotAte12() > 2*jogadas[12]){
+            return true;
+        }
+        else
+            return false;
     }
      //Metodo que soma o valor de todas as posicoes ate 12 do vetor jogadas de cada jogador.(Mexer)
      public int SomaTotAte12(){
