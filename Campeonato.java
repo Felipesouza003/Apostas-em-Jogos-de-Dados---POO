@@ -146,6 +146,8 @@ public class Campeonato implements Serializable{
                             }
                             
                         }
+                        else
+                            System.out.println("Jogador(a) "+jogadores[j].GetNome()+" sem saldo!");
 
                     }
                     else
@@ -285,6 +287,7 @@ public class Campeonato implements Serializable{
                 System.out.println("Por favor informe uma opcao valida");
                 
         } while (opcao != 1 && opcao != 2 && opcao != 3);
+
         do {
             teclado.nextLine();
             System.out.println("1 - JOGO GENERAL");
@@ -570,6 +573,17 @@ public class Campeonato implements Serializable{
             if(opcao != 1 && opcao != 2 && opcao != 3)
                 System.out.println("Por favor informe uma opcao valida");
                 
+        } while (opcao != 1 && opcao != 2 && opcao != 3);
+        do {
+            teclado.nextLine();
+            System.out.println("1 - JOGO GENERAL");
+            System.out.println("2 - JOGO AZAR");
+            System.out.println("3 - AMBOS (AZAR E GENERAL)");
+            System.out.printf("Escolha para qual tipo de jogo deseja imprimir as estatisticas: ");
+            opcaoExt = teclado.nextInt();
+            
+            if(opcao != 1 && opcao != 2 && opcao != 3)
+                System.out.println("Por favor informe uma opcao valida");
         } while (opcao != 1 && opcao != 2 && opcao != 3);
 
         for(int i=0; i < numJog; i++){

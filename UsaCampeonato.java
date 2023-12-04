@@ -23,6 +23,9 @@ public class UsaCampeonato{
                 case 'a'://Incluir o jogador caso a opcao seja a.
                     campion.incluirJogador();
                     break;
+                case 'A'://Incluir o jogador caso a opcao seja a.
+                    campion.incluirJogador();
+                    break;
                 case 'b'://Exclui o jogador caso a opcao seja b.
                     campion.exluirJogador();
                     break;
@@ -38,10 +41,10 @@ public class UsaCampeonato{
                 case 'f':
                     campion.imprimirEstatisticas();
                     break;
-                case 'h'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
+                case 'g'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
                     campion.gravarArq();
                     break;
-                case 'i'://Le os dados gravados em arquivo caso a opcao seja f.
+                case 'h'://Le os dados gravados em arquivo caso a opcao seja f.
                     campion.LerArq();
                     break;
                 case 's'://Encerra o programa caso a opcao seja g.
