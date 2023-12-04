@@ -12,9 +12,10 @@ public class UsaCampeonato{
             System.out.println("c)Executar rodada.");
             System.out.println("d)Imprimir saldo dos jogadores.");
             System.out.println("e)Imprimir extrato dos jogadores.");
-            System.out.println("f)Gravar os dados do campeonato em arquivo.");
-            System.out.println("g)Ler os dados do campeonato em arquivo.");
-            System.out.println("h)Sair da aplicação.");
+            System.out.println("f)Imprimir estatisticas do campeonato.");
+            System.out.println("g)Gravar os dados do campeonato em arquivo.");
+            System.out.println("h)Ler os dados do campeonato em arquivo.");
+            System.out.println("s)Sair da aplicação.");
             System.out.printf("\nEntre com a opção do menu: ");
             opcao = teclado.nextLine().charAt(0);
 
@@ -34,20 +35,23 @@ public class UsaCampeonato{
                 case 'e':
                     campion.ImprimirExtratos();
                     break;
-                case 'f'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
+                case 'f':
+                    campion.imprimirEstatisticas();
+                    break;
+                case 'h'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
                     campion.gravarArq();
                     break;
-                case 'g'://Le os dados gravados em arquivo caso a opcao seja f.
+                case 'i'://Le os dados gravados em arquivo caso a opcao seja f.
                     campion.LerArq();
                     break;
-                case 'h'://Encerra o programa caso a opcao seja g.
+                case 's'://Encerra o programa caso a opcao seja g.
                     System.out.println ("Saindo");
                     break;
                 default:
                     break;
             }
 
-        }while(opcao != 'h' && opcao != 'H');//Repete ate a opcao ser G ou g.
+        }while(opcao != 's' && opcao != 'S');//Repete ate a opcao ser G ou g.
         teclado.close();
     }
 }

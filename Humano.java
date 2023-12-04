@@ -48,6 +48,8 @@ public class Humano extends Jogador implements JogarComoHumano{
         for(int i=0; i < 13; i++){
             System.out.println("\n\nRolando dados para "+GetNome()+"("+GetTipo()+")...");
             jogoG.RolarDados();
+            for(int j=0; i < jogoG.getNDados(); j++)
+                jogoG.somaFaceSort(jogoG.getDados()[j].getSideUp());
             do {
                     System.out.println("\nOpcões de jogadas:");
                     System.out.println("1\t2\t3\t4\t5\t6\t7(T)\t8(Q)\t9(F)\t10(S+)\t11(S-)\t12(G)\t13(X)");

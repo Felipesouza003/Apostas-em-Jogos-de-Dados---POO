@@ -17,6 +17,7 @@ public abstract class JogoDados implements Serializable, Estatistica{
     public void RolarDados() {
         System.out.println("\nFaces dos dados rolados:");
         for (int i = 0; i < nDados; i++) {
+            //somaFaceSort(getDados()[i].getSideUp());
             Dados[i].roll();
             System.out.printf(Dados[i]+"   ");
         }

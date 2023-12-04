@@ -313,6 +313,7 @@ public class Campeonato implements Serializable{
                                     if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
                                         JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
                                         System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println("Tipo do jogo: General");
                                         System.out.println("Jogadas:");
                                         general.MostraJogadas();
                                         System.out.println();
@@ -337,6 +338,7 @@ public class Campeonato implements Serializable{
                                     if(jogadores[i].getJogoDados()[j] instanceof JogoAzar){
                                         JogoAzar azar = (JogoAzar)jogadores[i].getJogoDados()[j];
                                         System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println("Tipo do jogo: Azar");
                                         System.out.println();
                                         if(azar.resultadoAzar() == true)
                                             System.out.println("resultado: Ganhou!\n");
@@ -360,6 +362,7 @@ public class Campeonato implements Serializable{
                                     if(jogadores[i].getJogoDados()[j] instanceof JogoGeneral){
                                         JogoGeneral general = (JogoGeneral)jogadores[i].getJogoDados()[j];
                                         System.out.println(" "+(j+1)+"° Aposta");
+                                        System.out.println("Tipo do jogo: Azar");
                                         System.out.println("Jogadas:");
                                         general.MostraJogadas();
                                         System.out.println();
@@ -550,6 +553,28 @@ public class Campeonato implements Serializable{
                         }
                     }
                 }
+            }
+        }
+    }
+    public void imprimirEstatisticas(){
+        Scanner teclado = new Scanner(System.in);
+        int opcao;
+        int opcaoExt;
+        do {
+            System.out.println("1 - JOGADORES HUMANOS");
+            System.out.println("2 - JOGADORES MAQUINAS");
+            System.out.println("3 - AMBOS (HUMANOS E MAQUINAS)");
+            System.out.printf("Escolha para qual tipo de jogador deseja imprimir as Estatisticas: ");
+            opcao = teclado.nextInt();
+
+            if(opcao != 1 && opcao != 2 && opcao != 3)
+                System.out.println("Por favor informe uma opcao valida");
+                
+        } while (opcao != 1 && opcao != 2 && opcao != 3);
+
+        for(int i=0; i < numJog; i++){
+            for(int j=0; j < jogadores[i].getContJogos(); j++){
+                jogadores[i].getJogoDados()[j].getFacesSorteadasVet();
             }
         }
     }

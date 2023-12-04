@@ -54,6 +54,5 @@ public class Maquina extends Jogador{
             }
             
         }
-        //System.out.println("\nJogada escolhida: "+escolha);
     }
 }

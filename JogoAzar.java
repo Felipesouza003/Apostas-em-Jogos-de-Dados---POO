@@ -12,7 +12,7 @@ public class JogoAzar extends JogoDados{
 
     @Override
     public void somaFaceSort(int n) {
-        faceSort[n -1]++;      
+        faceSort[n - 1]++;      
     }
 
     @Override
