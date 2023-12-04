@@ -574,7 +574,7 @@ public class Campeonato implements Serializable{
 
         for(int i=0; i < numJog; i++){
             for(int j=0; j < jogadores[i].getContJogos(); j++){
-                jogadores[i].getJogoDados()[j].getFacesSorteadasVet();
+                jogadores[i].getJogoDados()[j].printFacesSorteadas();
             }
         }
     }

@@ -11,24 +11,6 @@ public class JogoGeneral extends JogoDados{
         }
     }
 
-    @Override
-    public void somaFaceSort(int n) {
-        faceSort[n -1]++;      
-    }
-
-    @Override
-    public int[] getFacesSorteadasVet() {
-        return faceSort;
-    }
-
-    @Override
-    public void printFacesSorteadas() {
-        System.out.println("Quantidade que cada face foi sorteada: ");
-        for(int i = 0; i < numfaces; i++){
-            System.out.println("Face " + (i+1) + ": " + faceSort[i] + " vezes.");
-        }
-    }
-
     // Metodo acessador de jogadas]
     public int[] Getjogadas() {
         return this.jogadas;

@@ -1,8 +1,6 @@
 public interface Estatistica {
-
-    static short numfaces = 6;
-    static int[] faceSort = new int[6];
-
+    
+    final static short numfaces = 6;
 
     public void somaFaceSort(int n);
     public int[] getFacesSorteadasVet();
