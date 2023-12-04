@@ -9,7 +9,13 @@ public class JogoAzar extends JogoDados{
         this.jogBus = -1;
         this.vitoria = false;
     }
-
+    // Metodo construtor
+    public JogoAzar(int nDados, String nome, int jogoBus, boolean vit) {
+        super(nDados, nome);
+        this.jogBus = jogoBus;
+        this.vitoria = vit;
+    }
+    //Retorna resultado do jogo azar.
     public boolean resultadoAzar() {
         return vitoria;
     }

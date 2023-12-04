@@ -6,7 +6,7 @@ public class Humano extends Jogador implements JogarComoHumano{
     private String numeroBanco;
     private String agencia;
 
-
+    //Contrutor padrao.
     public Humano(String nome, char Tipo, String Cpf, String conta, String numeroBanco, String agencia){
         super(nome, Tipo);
         this.Cpf = Cpf;
@@ -14,6 +14,7 @@ public class Humano extends Jogador implements JogarComoHumano{
         this.numeroBanco = numeroBanco;
         this.agencia = agencia;
     }
+    //Sobreescrita de metodos.
     @Override
     public int escolherJogo(){
         int jogoEscolhido;
@@ -27,6 +28,7 @@ public class Humano extends Jogador implements JogarComoHumano{
         } while (jogoEscolhido != 1 && jogoEscolhido != 2);
         return jogoEscolhido;
     }
+    //Metodo de escolher aposta.
     public float escolherValorAposta(){
         float valorAposta;
         Scanner teclado = new Scanner (System.in);
@@ -40,6 +42,7 @@ public class Humano extends Jogador implements JogarComoHumano{
         } while (valorAposta > GetSaldo() || valorAposta < 0);
         return valorAposta;
     }
+    //Metodo de escolher jogada jogo General.
     @Override
     public void EscolherJogada(JogoGeneral jogoG){
         int jogada=0;
@@ -65,6 +68,7 @@ public class Humano extends Jogador implements JogarComoHumano{
             jogoG.MostraJogadas();
         }
     }
+    //Geters
     public String getCpfHumano(){
         return this.Cpf;
     }

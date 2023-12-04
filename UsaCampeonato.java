@@ -35,10 +35,10 @@ public class UsaCampeonato{
                 case 'd'://Mostra a tabela da ultima rodada caso a opcao seja d.
                     campion.imprimirSaldo();;
                     break;
-                case 'e':
+                case 'e'://Imprime extratos do campeonato.
                     campion.ImprimirExtratos();
                     break;
-                case 'f':
+                case 'f'://Imprime as estatisticas
                     campion.imprimirEstatisticas();
                     break;
                 case 'g'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.

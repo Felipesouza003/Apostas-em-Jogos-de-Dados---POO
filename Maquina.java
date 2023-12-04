@@ -1,9 +1,11 @@
 import java.util.Random;
 
 public class Maquina extends Jogador{
+    //Metodo construtor padrao.
     public Maquina(String nome, char tipo){
         super(nome, tipo);
     }
+    //escolhe o tipo de jogo aleatoriamente.
     public int escolherJogo(){
 
         System.out.printf("\nInforme o tipo de jogo em que deseja apostar: (1-Jogo general ou 2-Jogo azar): ");
@@ -12,6 +14,7 @@ public class Maquina extends Jogador{
         System.out.println("Escolha: "+escolha);
         return escolha;
     }
+    //Retorna o valor a ser apostado. 
     public float ApostaMaquina(){
         if(GetSaldo() > 40)
             return (float)40;
@@ -23,14 +26,15 @@ public class Maquina extends Jogador{
 
     //Estrategia de maquina que retorna um inteiro representando a jogada escolhida.
     public void EstrategiaMaq(JogoGeneral jogoG){
-        //Variavel auxiliar que guarda a posicao que representa a jogada possivel.
-        //for que percorre o vetor de jogadas e escolhe a primeira jogada validada na ordem decrescente.
-        //A variavel escolha tem a finalidade de parar o laco quando uma jogada e validada.
+        
+        
         for(int r=0; r < 13; r++){
+            //Variavel auxiliar que guarda a posicao que representa a jogada possivel.
+            //A variavel escolha tem a finalidade de parar o laco quando uma jogada e validada.
             int escolha=-1;
             System.out.println("\n\nRolando dados para "+GetNome()+"("+GetTipo()+")...");
             jogoG.RolarDados();
-
+            //for que percorre o vetor de jogadas e escolhe a primeira jogada validada na ordem decrescente.
             for(int j = jogoG.Getjogadas().length; j > 0 && escolha == -1; j--){
                 if(jogoG.Getjogadas()[j-1] == -1)
                     if(jogoG.validaJogadas(j) == true)
@@ -49,6 +53,7 @@ public class Maquina extends Jogador{
                     }
                 }
                 System.out.println("\nJogada escolhida: "+escolha);
+                //pontua a jogada escolhida.
                 jogoG.pontuarJogada(escolha);
                 jogoG.MostraJogadas();
             }

@@ -134,6 +134,7 @@ public class JogoGeneral extends JogoDados{
                 System.out.printf(jogadas[i]+"\t");
         }
     }
+    //metodo que retorna o resultado do jogo general.
     public boolean resultadoGeneral(){
         if(SomaTotAte12() > 2*jogadas[12]){
             return true;
