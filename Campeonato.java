@@ -619,40 +619,263 @@ public class Campeonato implements Serializable{
             }
         }
     }
-    public void imprimirEstatisticas(){
+    /* Para a impressão das estatisticas, foi necessário a criação de diversos submenus com loops e condições de verificação.
+    Para identificar o tipo de jogador, o tipo de jogo e afins, foram utilizadas diversas funções instanceof.
+    Variáveis auxiliares foram necessárias para a escolha de opções em submenus, e também para o caso em que não há um tipo de jogo
+    para um jogador específico.
+    O loop principal se mantém até que o usuário pressione 5, já os demais submenus encerram o loop ao escolher uma opção válida.
+    Se não é escolhida uma opção válida, uma mensagem de aviso é exibida.
+    Diversas funções println foram implementadas por razões estéticas e a fim de facilitar a visualização do menu.
+     */
+    public void imprimirEstatisticas() {
         Scanner teclado = new Scanner(System.in);
         int opcao;
         int opcaoExt;
-        //menu tipos de jogadores.
+        int opcaoExt2;
+        int jogAex = 0, jogGex = 0;
         do {
-            System.out.println("1 - JOGADORES HUMANOS");
-            System.out.println("2 - JOGADORES MAQUINAS");
-            System.out.println("3 - AMBOS (HUMANOS E MAQUINAS)");
-            System.out.printf("Escolha para qual tipo de jogador deseja imprimir as Estatisticas: ");
+            System.out.println("1 - POR TIPO DE JOGADOR(HUMANO OU MÁQUINA)");
+            System.out.println("2 - POR TIPO DE JOGO");
+            System.out.println("3 - TOTAL POR JOGOS");
+            System.out.println("4 - TOTAL DO CAMPEONATO");
+            System.out.printf("Escolha uma opcao para imprimir as estatisticas ou 5 para retornar ao menu anterior: ");
             opcao = teclado.nextInt();
+            System.out.println(" ");
 
-            if(opcao != 1 && opcao != 2 && opcao != 3)
-                System.out.println("Por favor informe uma opcao valida");
-                
-        } while (opcao != 1 && opcao != 2 && opcao != 3);
-        //menu tipos de jogos.
-        do {
-            teclado.nextLine();
-            System.out.println("1 - JOGO GENERAL");
-            System.out.println("2 - JOGO AZAR");
-            System.out.println("3 - AMBOS (AZAR E GENERAL)");
-            System.out.printf("Escolha para qual tipo de jogo deseja imprimir as estatisticas: ");
-            opcaoExt = teclado.nextInt();
-            
-            if(opcao != 1 && opcao != 2 && opcao != 3)
-                System.out.println("Por favor informe uma opcao valida");
-        } while (opcao != 1 && opcao != 2 && opcao != 3);
-        //printa o vetor de estatisticas.
-        for(int i=0; i < numJog; i++){
-            for(int j=0; j < jogadores[i].getContJogos(); j++){
-                jogadores[i].getJogoDados()[j].printFacesSorteadas();
+            if (opcao == 1) {
+                teclado.nextLine();
+                do {
+                    System.out.println("1 - JOGADORES HUMANOS");
+                    System.out.println("2 - JOGADORES MAQUINAS");
+                    System.out.println("3 - AMBOS (HUMANOS E MAQUINAS)");
+                    System.out.printf("Escolha para qual tipo de jogador deseja imprimir as Estatisticas: ");
+                    opcaoExt = teclado.nextInt();
+                    System.out.println(" ");
+
+                    if (opcaoExt == 1 && ExisteHumano()) {
+                        for (int i = 0; i < numJog; i++) {
+                            if(jogadores[i] instanceof Humano){
+                                System.out.println("Jogador(a) " + (i+1) + ", nome: " + jogadores[i].GetNome());
+                                System.out.println(" ");
+                            }
+                            for (int j = 0; j < jogadores[i].getContJogos(); j++) {
+                                if (jogadores[i] instanceof Humano) {
+                                    
+                                    if (jogadores[i].getJogoDados()[j] instanceof JogoAzar) {
+                                        System.out.println("Jogo " + (j + 1) + " do tipo JogoAzar");
+                                    }
+                                    if (jogadores[i].getJogoDados()[j] instanceof JogoGeneral) {
+                                        System.out.println("Jogo " + (j + 1) + " do tipo JogoGeneral");
+                                    }
+                                    jogadores[i].getJogoDados()[j].printFacesSorteadas();
+                                }
+                                System.out.println(" ");
+                            }
+                            System.out.println(" ");
+                        }
+                    }
+                    else if(opcaoExt == 1 && !ExisteHumano()){
+                        System.out.println("Nao existem jogadores do tipo humano!");
+                        System.out.println(" ");
+                    }
+
+                    if (opcaoExt == 2 && ExisteMaquina()) {
+                        for (int i = 0; i < numJog; i++) {
+                            if(jogadores[i] instanceof Maquina){
+                                System.out.println("Jogador(a) " + (i+1) + ", nome: " + jogadores[i].GetNome());
+                                System.out.println(" ");
+                            }
+                            
+                            for (int j = 0; j < jogadores[i].getContJogos(); j++) {
+                                if (jogadores[i] instanceof Maquina) {
+                                    if (jogadores[i].getJogoDados()[j] instanceof JogoAzar) {
+                                        System.out.println("Jogo " + (j + 1) + " do tipo JogoAzar");
+                                    }
+                                    if (jogadores[i].getJogoDados()[j] instanceof JogoGeneral) {
+                                        System.out.println("Jogo " + (j + 1) + " do tipo JogoGeneral");
+                                    }
+                                    jogadores[i].getJogoDados()[j].printFacesSorteadas();
+                                }
+                                System.out.println(" ");
+                            }
+                            System.out.println(" ");
+                        }
+                    }
+                    else if(opcaoExt == 2 && !ExisteMaquina()){
+                        System.out.println("Nao existem jogadores do tipo maquina!");
+                        System.out.println(" ");
+                    }
+
+                    if (opcaoExt == 3 && (ExisteMaquina() || ExisteHumano())) {
+                        for (int i = 0; i < numJog; i++) {
+                            System.out.println("Jogador(a) " + (i+1) + ", nome: " + jogadores[i].GetNome());
+                            System.out.println(" ");
+                            for (int j = 0; j < jogadores[i].getContJogos(); j++) {
+                                if (jogadores[i].getJogoDados()[j] instanceof JogoAzar) {
+                                    System.out.println("Jogo " + (j + 1) + " do tipo JogoAzar");
+                                }
+                                if (jogadores[i].getJogoDados()[j] instanceof JogoGeneral) {
+                                    System.out.println("Jogo " + (j + 1) + " do tipo JogoGeneral");
+                                }
+                                jogadores[i].getJogoDados()[j].printFacesSorteadas();
+                                System.out.println(" ");
+                            }
+                            System.out.println(" ");
+                        }
+                    }
+
+                    if (opcaoExt != 1 && opcaoExt != 2 && opcaoExt != 3)
+                        System.out.println("Por favor informe uma opcao valida");
+
+                } while (opcaoExt != 1 && opcaoExt != 2 && opcaoExt != 3);
+
             }
-        }
+
+            if (opcao == 2) {
+                teclado.nextLine();
+                do {
+                    System.out.println("1 - JOGO AZAR");
+                    System.out.println("2 - JOGO GENERAL");
+                    System.out.printf("Escolha para qual tipo de jogo deseja imprimir as estatisticas: ");
+                    opcaoExt = teclado.nextInt();
+                    System.out.println(" ");
+
+                    if (opcaoExt == 1) {
+                        for (int i = 0; i < numJog; i++) {
+                            System.out.println((i + 1) + " - " + jogadores[i].GetNome());
+                            System.out.println(" ");
+                        }
+                        System.out.printf("Escolha um jogador especifico para imprimir as estatisticas: ");
+                        opcaoExt2 = teclado.nextInt();
+                        System.out.println(" ");
+                        if(opcaoExt2 <= 0 || opcaoExt2 > numJog){
+                            System.out.println("Opcao invalida!");
+                            System.out.println(" ");
+                            break;
+                        }
+
+                        for (int j = 0; j < jogadores[(opcaoExt2 - 1)].getContJogos(); j++) {
+                            if (jogadores[(opcaoExt2 - 1)].getJogoDados()[j] instanceof JogoAzar) {
+                                System.out.println("Jogo " + (j+1) + ":");
+                                jogadores[(opcaoExt2 - 1)].getJogoDados()[j].printFacesSorteadas();
+                                System.out.println(" ");
+                                jogAex++;
+                            }
+                            
+                        }
+                        if(jogAex == 0){
+                                System.out.println("Não há nenhum Jogo de Azar para este jogador");
+                                System.out.println(" ");
+                            }
+                    }
+
+                    if (opcaoExt == 2) {
+                        for (int i = 0; i < numJog; i++) {
+                            System.out.println((i + 1) + " - " + jogadores[i].GetNome());
+                            System.out.println(" ");
+                        }
+                        System.out.printf("Escolha um jogador especifico para imprimir as estatisticas: ");
+                        opcaoExt2 = teclado.nextInt();
+                        System.out.println(" ");
+                        if(opcaoExt2 <= 0 || opcaoExt2 > numJog){
+                            System.out.println("Opcao invalida!");
+                            System.out.println(" ");
+                            break;
+                        }
+
+                        for (int j = 0; j < jogadores[(opcaoExt2 - 1)].getContJogos(); j++) {
+                            if (jogadores[(opcaoExt2 - 1)].getJogoDados()[j] instanceof JogoGeneral) {
+                                System.out.println("Jogo " + (j+1) + ":");
+                                jogadores[(opcaoExt2 - 1)].getJogoDados()[j].printFacesSorteadas();
+                                System.out.println(" ");
+                                jogGex++;
+                            }
+                        }
+                        if(jogGex == 0){
+                                System.out.println("Não há nenhum Jogo General para este jogador");
+                                System.out.println(" ");
+                            }
+                    }
+
+                    if (opcaoExt != 1 && opcaoExt != 2 && opcaoExt != 3)
+                        System.out.println("Por favor informe uma opcao valida");
+
+                } while (opcaoExt != 1 && opcaoExt != 2 && opcaoExt != 3);
+
+            }
+
+            if (opcao == 3) {
+                teclado.nextLine();
+                do {
+                    System.out.println("1 - JOGO AZAR");
+                    System.out.println("2 - JOGO GENERAL");
+                    System.out.printf("Escolha para qual tipo de jogo deseja imprimir todas as estatisticas: ");
+                    opcaoExt = teclado.nextInt();
+                    System.out.println(" ");
+
+                    int auxSomaVet[] = new int[6];
+
+                    if (opcaoExt == 1) {
+                        for (int i = 0; i < numJog; i++) {
+                            for (int j = 0; j < jogadores[i].getContJogos(); j++) {
+                                if (jogadores[i].getJogoDados()[j] instanceof JogoAzar) {
+                                    for (int k = 0; k < 6; k++) {
+                                        auxSomaVet[k] = auxSomaVet[k]
+                                                + jogadores[i].getJogoDados()[j].getFacesSorteadasVet()[k];
+                                    }
+                                }
+                            }
+                        }
+                        System.out.println("Faces sorteadas para o total de Jogo Azar: ");
+                        for (int k = 0; k < 6; k++) {
+                            System.out.println("Face " + (k + 1) + ": " + auxSomaVet[k] + " vezes");
+                        }
+                        System.out.println(" ");
+                    }
+
+                    if (opcaoExt == 2) {
+                        for (int i = 0; i < numJog; i++) {
+                            for (int j = 0; j < jogadores[i].getContJogos(); j++) {
+                                if (jogadores[i].getJogoDados()[j] instanceof JogoGeneral) {
+                                    for (int k = 0; k < 6; k++) {
+                                        auxSomaVet[k] = auxSomaVet[k]
+                                                + jogadores[i].getJogoDados()[j].getFacesSorteadasVet()[k];
+                                    }
+                                }
+                            }
+                        }
+                        System.out.println("Faces sorteadas para o total de Jogo General: ");
+                        for (int k = 0; k < 6; k++) {
+                            System.out.println("Face " + (k + 1) + ": " + auxSomaVet[k] + " vezes");
+                        }
+                        System.out.println(" ");
+                    }
+
+                } while (opcaoExt != 1 && opcaoExt != 2);
+            }
+
+            if (opcao == 4) {
+                teclado.nextLine();
+                int[] auxSomaVet = new int[6];
+
+                for (int i = 0; i < numJog; i++) {
+                    for (int j = 0; j < jogadores[i].getContJogos(); j++) {
+                        for (int k = 0; k < 6; k++) {
+                            auxSomaVet[k] = auxSomaVet[k] + jogadores[i].getJogoDados()[j].getFacesSorteadasVet()[k];
+                        }
+                    }
+                }
+                System.out.println("Faces sorteadas para o total do campeonato: ");
+                for (int k = 0; k < 6; k++) {
+                    System.out.println("Face " + (k + 1) + ": " + auxSomaVet[k] + " vezes");
+                }
+                System.out.println(" ");
+            }
+
+            if (opcao != 1 && opcao != 2 && opcao != 3 && opcao != 4)
+                System.out.println("Por favor informe uma opcao valida");
+
+        } while (opcao != 5);
     }
     public void gravarArq(){
         File Dados_JogoG = new File("Jogo.dat");//arquivo para gravacao do dados do jogo 
