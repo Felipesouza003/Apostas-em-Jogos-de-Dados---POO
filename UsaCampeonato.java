@@ -23,31 +23,55 @@ public class UsaCampeonato{
                 case 'a'://Incluir o jogador caso a opcao seja a.
                     campion.incluirJogador();
                     break;
-                case 'A'://Incluir o jogador caso a opcao seja a.
+                case 'A'://Incluir o jogador caso a opcao seja A.
                     campion.incluirJogador();
                     break;
                 case 'b'://Exclui o jogador caso a opcao seja b.
                     campion.exluirJogador();
                     break;
+                case 'B'://Exclui o jogador caso a opcao seja B.
+                    campion.exluirJogador();
+                    break;
                 case 'c'://Inicia o campeontado caso a opcao seja c.
+                    campion.iniciaCampeonato();
+                    break;
+                case 'C'://Inicia o campeontado caso a opcao seja C.
                     campion.iniciaCampeonato();
                     break;
                 case 'd'://Mostra a tabela da ultima rodada caso a opcao seja d.
                     campion.imprimirSaldo();;
                     break;
+                case 'D'://Mostra a tabela da ultima rodada caso a opcao seja D.
+                    campion.imprimirSaldo();;
+                    break;
                 case 'e'://Imprime extratos do campeonato.
+                    campion.ImprimirExtratos();
+                    break;
+                case 'E'://Imprime extratos do campeonato.
                     campion.ImprimirExtratos();
                     break;
                 case 'f'://Imprime as estatisticas
                     campion.imprimirEstatisticas();
                     break;
-                case 'g'://Grava os dados da ultima rodada em arquivo caso a opcao seja e.
+                case 'F'://Imprime as estatisticas
+                    campion.imprimirEstatisticas();
+                    break;
+                case 'g'://Grava os dados da ultima rodada em arquivo caso a opcao seja g.
                     campion.gravarArq();
                     break;
-                case 'h'://Le os dados gravados em arquivo caso a opcao seja f.
+                case 'G'://Grava os dados da ultima rodada em arquivo caso a opcao seja G.
+                    campion.gravarArq();
+                    break;
+                case 'h'://Le os dados gravados em arquivo caso a opcao seja h.
                     campion.LerArq();
                     break;
-                case 's'://Encerra o programa caso a opcao seja g.
+                case 'H'://Le os dados gravados em arquivo caso a opcao seja H.
+                    campion.LerArq();
+                    break;
+                case 's'://Encerra o programa caso a opcao seja s.
+                    System.out.println ("Saindo");
+                    break;
+                case 'S'://Encerra o programa caso a opcao seja S.
                     System.out.println ("Saindo");
                     break;
                 default:
