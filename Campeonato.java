@@ -170,6 +170,7 @@ public class Campeonato implements Serializable{
         if(numJog > 0){//Verifica se existem jogadores antes da exclusao.
             //Imprime a lista de jogadores para escolha.
             System.out.println("\nJogadores Disponíveis:\n");
+            //for que controla os joogadores.
             for(int i=0; i < numJog; i++)
                 System.out.println(jogadores[i].GetNome());
             System.out.printf("\nPor favor informe qual jogador(a) deseja exculir: ");
