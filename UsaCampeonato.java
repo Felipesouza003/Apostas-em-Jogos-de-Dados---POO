@@ -44,7 +44,7 @@ public class UsaCampeonato{
                 case 'D'://Mostra a tabela da ultima rodada caso a opcao seja D.
                     campion.imprimirSaldo();;
                     break;
-                case 'e'://Imprime extratos do campeonato.
+                case 'e'://Imprime extratos do campeonato caso a opcao seja e.
                     campion.ImprimirExtratos();
                     break;
                 case 'E'://Imprime extratos do campeonato.
