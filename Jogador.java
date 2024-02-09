@@ -1,16 +1,20 @@
 import java.io.Serializable;
 
-public class Jogador implements Serializable{
+public abstract class Jogador implements Serializable{
     //Atributos do jogador.
     private String nome;
     private char Tipo_jog;
-    private JogoGeneral jogoG;
+    private float saldo;
+    private JogoDados[] jogoD;
+    private int contJogos;
 
     //metodo construtor com parametros.
     public Jogador(String nome, char Tipo){
+        jogoD  = new JogoDados[10];
         this.nome = nome;
         Tipo_jog = Tipo;
-        jogoG = new JogoGeneral();
+        contJogos = 0;
+        this.saldo = (float)100;
     }
     //Metodo acessador do nome do jogador.
     public String GetNome(){
@@ -20,63 +24,37 @@ public class Jogador implements Serializable{
     public char GetTipo(){
         return Tipo_jog;
     }
+    public float GetSaldo(){
+        return this.saldo;
+    }
+    public void SetSaldo(float saldo){
+        this.saldo = saldo;
+    }
+    public int getContJogos(){
+        return this.contJogos;
+    }
+    public void SetContJogos(int cont){
+        this.contJogos = cont;
+    }
     //Metodo acessador de jogo
-    public JogoGeneral getJogo(){
-        return this.jogoG;
+    public JogoDados[] getJogoDados(){
+        return this.jogoD;
     }
-    //Metodo que chama o setJogadas.
-    public void zeraPont(){
-        jogoG.setJogadas();
-    }
+    
     //Metodo que invoca o metodo para rolar os dados.
-    public void jogarDados(){
-        this.jogoG.RolarDados();
+    public void jogarDados(int i){
+        this.jogoD[i].RolarDados();
     }
-    //Metodo em que o jogador escolhe a jogada.
-    public void EscolherJogada(int jogada){
-        this.jogoG.pontuarJogada(jogada);
+    public String toString(){
+        return this.nome + this.Tipo_jog;
     }
-    //Estrategia de maquina que retorna um inteiro representando a jogada escolhida.
-    public int EstrategiaMaq(){
-        int escolha=-1;//Variavel auxiliar que guarda a posicao que representa a jogada possivel.
-        //for que percorre o vetor de jogadas e escolhe a primeira jogada validada na ordem decrescente.
-        //A variavel escolha tem a finalidade de parar o laco quando uma jogada e validada.
-        for(int i = jogoG.Getjogadas().length; i > 0 && escolha == -1; i--){
-            if(jogoG.Getjogadas()[i-1] == -1)
-                if(jogoG.validaJogadas(i) == true)
-                    escolha = i;
-        }//Caso a jogada seja validada e a variavel jogada recebeu atribuicao retorna o valor.
-        if(escolha != -1)
-            return escolha;
-        else{//Caso nao seja possivel validar a jogada a primeira jogada em ordem decrescente 
-            //que ainda nao foi utilizada e escolhida para ser zerada.
-            for(int i = jogoG.Getjogadas().length; i > 0 && escolha == -1; i--){
-                if(jogoG.Getjogadas()[i-1] == -1){//Acessa as posicoes do vetor de jogadas.
-                    escolha = i;
-                }
-            }
-            return escolha;
+    //criar metodo incluir jogo.
+    public void CriarJogo(int escolha, int i){
+        if(escolha == 1){
+            this.jogoD[i] = new JogoGeneral(5, "Jogo General");
         }
-    }
-    //Metodo que mostra o vetor de jogadas.
-    public void MostraJogadas(){
-        int[] vet = this.jogoG.Getjogadas();
-        for(int i=0; i < vet.length; i++){
-            if(vet[i] == -1)
-                System.out.printf("-\t");
-            else
-                System.out.printf(vet[i]+"\t");
-        }
-    }
-    //Metodo que soma o valor de todas as posicoes do vetor jogadas de cada jogador.
-    public int SomaTot(){
-        int[] vetJogadas = jogoG.Getjogadas();//Invocacao do metodo acessador de jogadas.
-        int soma=0;
-        for(int i=0; i < vetJogadas.length; i++){
-            if(vetJogadas[i] != -1)
-                soma += vetJogadas[i];//soma os valores das posicoes do vetor de jogadas.
-        }
-        return soma;
-    }
+        else if(escolha == 2)
+            this.jogoD[i] = new JogoAzar();
 
+    }
 }

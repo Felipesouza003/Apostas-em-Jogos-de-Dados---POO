@@ -1,23 +1,11 @@
-import java.io.Serializable;
-
-public class JogoGeneral implements Serializable{
-    private Dado[] Dados = new Dado[5];
-    private int[] jogadas = new int[13];
-
+public class JogoGeneral extends JogoDados{
+    private int[] jogadas;
+    
     // Construtor padrao
-    public JogoGeneral() {
-        // int i;
-        // Dados do jogador da rodada
-        for (int i = 0; i < 5; i++)
-            Dados[i] = new Dado();
-
+    public JogoGeneral(int nDados, String nome) {
+        super(5, "Jogo General");
+        jogadas = new int[13];
         // Inicializando jogadas
-        for (int i = 0; i < 13; i++) {
-            jogadas[i] = -1;
-        }
-    }
-    //Metodo seter que inicializa o vetor de jogadas.
-    public void setJogadas(){
         for (int i = 0; i < 13; i++) {
             jogadas[i] = -1;
         }
@@ -27,20 +15,11 @@ public class JogoGeneral implements Serializable{
     public int[] Getjogadas() {
         return this.jogadas;
     }
-
-    public void RolarDados() {
-        System.out.println("\nFaces dos dados rolados:");
-        for (int i = 0; i < 5; i++) {
-            Dados[i].roll();
-            System.out.printf(Dados[i]+"   ");
-        }
-        System.out.println();
-    }
     //Metodo que faz a soma das faces dos dados rolados e retorna.
     public int SomaDados() {
         int soma = 0;
         for (int i = 0; i < 5; i++) {
-            soma += Dados[i].getSideUp();
+            soma += getDados()[i].getSideUp();
         }
         return soma;
     }
@@ -50,11 +29,10 @@ public class JogoGeneral implements Serializable{
 		int[] vet_cont = {0,0,0,0,0,0}; 
 		// vetor vet_con[] conta o numero de aparicoes das faces e coloca no indice respectivo
 		for(int i = 0 ; i < 5 ; i++) { 
-			vet_cont[(this.Dados[i].getSideUp()) - 1] += 1;
+			vet_cont[(getDados()[i].getSideUp()) - 1] += 1;
 		}
         //Verificacao se a jogada ja foi utilizada
         if(jogadas[jogada - 1] != -1){
-            System.out.println("\nEssa jogada ja foi utilizada!");
             return false;
         }//Caso a jogada escolhida seja entre 6 e 1 faz a multiplicacao da jogada pelo numero de vezes que a face virou.
         else if(jogada >= 1 && jogada <= 6){ 
@@ -146,6 +124,32 @@ public class JogoGeneral implements Serializable{
             }
         }
         return false;
+    }
+    //Metodo que mostra o vetor de jogadas.(Mexer)
+    public void MostraJogadas(){
+        for(int i=0; i < jogadas.length; i++){
+            if(jogadas[i] == -1)
+                System.out.printf("-\t");
+            else
+                System.out.printf(jogadas[i]+"\t");
+        }
+    }
+    //metodo que retorna o resultado do jogo general.
+    public boolean resultadoGeneral(){
+        if(SomaTotAte12() > 2*jogadas[12]){
+            return true;
+        }
+        else
+            return false;
+    }
+     //Metodo que soma o valor de todas as posicoes ate 12 do vetor jogadas de cada jogador.(Mexer)
+     public int SomaTotAte12(){
+        int soma=0;
+        for(int i=0; i < jogadas.length-1; i++){
+            if(jogadas[i] != -1)
+                soma += jogadas[i];//soma os valores das posicoes do vetor de jogadas.
+        }
+        return soma;
     }
     //metodo que pontua as jogadas separadamente.
     public void pontuarJogada(int jogada) {
